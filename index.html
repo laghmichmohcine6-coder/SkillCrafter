@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillCrafters — Guidance Towards The Future</title>
+  <meta name="description"
+    content="SkillCrafters connects motivated learners with industry-grade skills, real portfolio work, and direct pathways into employment.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="landing.css">
+</head>
+
+<body>
+
+  <!-- ── SCROLL BAR ──────────────────────────── -->
+  <div id="scroll-bar"></div>
+
+  <!-- ── CURSOR ──────────────────────────────── -->
+  <div class="cur-dot" id="curDot"></div>
+  <div class="cur-ring" id="curRing"></div>
+
+  <!-- ════════════════════════════════════════
+     LOADER
+════════════════════════════════════════ -->
+  <div id="loader">
+    <div class="ld-inner">
+      <img src="logo.png" alt="SkillCrafters" class="ld-emblem-img">
+
+      <div class="ld-wordmark">
+        <span class="ld-w1">SKILL</span>
+        <span class="ld-w2">CRAFTERS</span>
+      </div>
+      <p class="ld-tagline">Guidance Towards The Future</p>
+      <div class="ld-track">
+        <div class="ld-fill" id="ldFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST AREA ──────────────────────────── -->
+  <div id="toast-area"></div>
+
+  <!-- ════════════════════════════════════════
+     AUTH MODAL
+════════════════════════════════════════ -->
+  <div class="modal-bg" id="authModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeAuth()" aria-label="Close">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      </button>
+
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="tabSignIn" onclick="switchAuthTab('in')">Sign in</button>
+        <button class="modal-tab" id="tabSignUp" onclick="switchAuthTab('up')">Create account</button>
+      </div>
+
+      <!-- Sign In Panel -->
+      <div id="panelIn">
+        <div class="modal-intro">
+          <div class="modal-ico">
+            <!-- Key / access icon -->
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="8" cy="8" r="5.5" stroke="url(#mi-g)" stroke-width="1.2" />
+              <path d="M12 12L20 20" stroke="url(#mi-g)" stroke-width="1.2" stroke-linecap="round" />
+              <path d="M16.5 17.5l2 2M18.5 18.5l2-1.5" stroke="url(#mi-g)" stroke-width="1.2" stroke-linecap="round" />
+              <defs>
+                <linearGradient id="mi-g" x1="2.5" y1="2.5" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#F2BDC8" />
+                  <stop offset="1" stop-color="#8B8FD4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h2>Good to have you back</h2>
+          <p>Pick up exactly where you left off.</p>
+        </div>
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" id="inEmail" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="inPass" placeholder="Your password" autocomplete="current-password">
+        </div>
+        <button class="btn-modal-submit" onclick="doSignIn()">
+          Continue
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <!-- Demo Mode Button -->
+        <div class="demo-divider"><span>or</span></div>
+        <button class="btn-demo-enter" onclick="enterDemoMode()">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3" />
+            <path d="M5 7.5h5M7.5 5l2.5 2.5L7.5 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          Welcome to your personal dashboard
+        </button>
+
+        <p class="modal-alt">No account yet? <a onclick="switchAuthTab('up')">Create one — it's free</a></p>
+      </div>
+
+      <!-- Sign Up Panel -->
+      <div id="panelUp" class="hidden">
+        <div class="modal-intro">
+          <div class="modal-ico">
+            <!-- Spark / star icon -->
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 2l2.2 5.5H19l-4.5 3.5 1.5 5.5L11 13.5l-5 3 1.5-5.5L3 7.5h5.8L11 2z" stroke="url(#mi-g2)"
+                stroke-width="1.1" fill="none" />
+              <defs>
+                <linearGradient id="mi-g2" x1="3" y1="2" x2="19" y2="18" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#8B8FD4" />
+                  <stop offset="1" stop-color="#85B4D4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h2>Build something meaningful</h2>
+          <p>Your first step toward a career you're proud of.</p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>First name</label>
+            <input type="text" id="upFirst" placeholder="Sara" autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label>Last name</label>
+            <input type="text" id="upLast" placeholder="Khalil" autocomplete="family-name">
+          </div>
+        </div>
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" id="upEmail" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="upPass" placeholder="At least 6 characters" autocomplete="new-password">
+        </div>
+        <button class="btn-modal-submit" onclick="doSignUp()">
+          Create free account
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+        </button>
+        <p class="modal-alt">Already a member? <a onclick="switchAuthTab('in')">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+  <nav id="nav">
+    <div class="nav-inner">
+
+      <!-- Brand -->
+      <a href="#" class="nav-brand" aria-label="SkillCrafters home">
+        <img src="logo.png" alt="SkillCrafters logo" class="nav-logo-img">
+        <span class="nav-brand-name">SkillCrafters</span>
+      </a>
+
+      <!-- Desktop nav links -->
+      <ul class="nav-links" role="list">
+        <li><a href="#disciplines">Skills</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#jobs">Opportunities</a></li>
+        <li><a href="#testimonials">Stories</a></li>
+      </ul>
+
+      <!-- Desktop actions -->
+      <div class="nav-actions">
+        <button class="btn-theme" id="themeBtn" aria-label="Toggle colour theme">
+          <svg class="ico-sun" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2" />
+            <path
+              d="M8 1v2M8 13v2M1 8h2M13 8h2M2.93 2.93l1.41 1.41M11.66 11.66l1.41 1.41M2.93 13.07l1.41-1.41M11.66 4.34l1.41-1.41"
+              stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+          <svg class="ico-moon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M13.5 8.5A6 6 0 016.5 1.5a6 6 0 100 11 6 6 0 007-4z" stroke="currentColor" stroke-width="1.2"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+        <button class="btn-nav-ghost" onclick="enterDemoMode()">Sign in</button>
+        <button class="btn-nav-fill" onclick="openAuth('up')">Get started</button>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button class="nav-ham" id="navHam" onclick="toggleMob()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="mob-nav" id="mobNav" role="navigation" aria-label="Mobile menu">
+      <a href="#disciplines" onclick="closeMob()">Skills</a>
+      <a href="#courses" onclick="closeMob()">Courses</a>
+      <a href="#jobs" onclick="closeMob()">Opportunities</a>
+      <a href="#testimonials" onclick="closeMob()">Stories</a>
+      <div class="mob-auth">
+        <button onclick="enterDemoMode(); closeMob()">Sign in</button>
+        <button onclick="openAuth('up'); closeMob()">Get started free</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-glow hero-glow-a"></div>
+    <div class="hero-glow hero-glow-b"></div>
+    <div class="hero-glow hero-glow-c"></div>
+
+    <div class="hero-wrap">
+
+      <!-- Left: copy -->
+      <div class="hero-copy">
+        <div class="hero-pill reveal">
+          <span class="pill-pulse"></span>
+          Spring 2026 &nbsp;·&nbsp; New cohort now open
+        </div>
+
+        <h1 class="hero-h1 reveal">
+          The place where<br>
+          <em>ambition</em><br>
+          finds its craft
+        </h1>
+
+        <p class="hero-sub reveal">
+          SkillCrafters connects motivated learners with industry-grade disciplines, real portfolio work, and direct
+          pathways into employment — one refined platform.
+        </p>
+
+        <div class="hero-cta reveal">
+          <button class="btn-primary large mag" onclick="openAuth('up')">
+            Begin your journey
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M2 7.5h11M7.5 2l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <a href="#courses" class="btn-outline large mag">View curriculum</a>
+        </div>
+
+        <div class="hero-proof reveal">
+          <div class="proof-faces">
+            <img src="https://i.pravatar.cc/32?img=1" alt="learner" loading="lazy">
+            <img src="https://i.pravatar.cc/32?img=5" alt="learner" loading="lazy">
+            <img src="https://i.pravatar.cc/32?img=9" alt="learner" loading="lazy">
+            <img src="https://i.pravatar.cc/32?img=14" alt="learner" loading="lazy">
+          </div>
+          <div class="proof-text">
+            <div class="proof-stars">
+              <!-- 5 SVG star icons, gradient fill -->
+              <svg width="66" height="12" viewBox="0 0 66 12" fill="none">
+                <defs>
+                  <linearGradient id="star-g" x1="0" y1="0" x2="66" y2="12" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F2BDC8" />
+                    <stop offset="1" stop-color="#8B8FD4" />
+                  </linearGradient>
+                </defs>
+                <!-- 5 stars, 12px spacing -->
+                <path d="M5.5 1l1.2 3H9.8L7.4 5.6 8.3 8.7 5.5 7.2 2.7 8.7l.9-3.1L1.2 4h3.1L5.5 1z"
+                  fill="url(#star-g)" />
+                <path d="M18.5 1l1.2 3H22.8L20.4 5.6l.9 3.1-2.8-1.5-2.8 1.5.9-3.1L14.2 4h3.1L18.5 1z"
+                  fill="url(#star-g)" />
+                <path d="M31.5 1l1.2 3H35.8L33.4 5.6l.9 3.1-2.8-1.5-2.8 1.5.9-3.1L27.2 4h3.1L31.5 1z"
+                  fill="url(#star-g)" />
+                <path d="M44.5 1l1.2 3H48.8L46.4 5.6l.9 3.1-2.8-1.5-2.8 1.5.9-3.1L40.2 4h3.1L44.5 1z"
+                  fill="url(#star-g)" />
+                <path d="M57.5 1l1.2 3H61.8L59.4 5.6l.9 3.1-2.8-1.5-2.8 1.5.9-3.1L53.2 4h3.1L57.5 1z"
+                  fill="url(#star-g)" />
+              </svg>
+            </div>
+            <span>Trusted by 12,000+ learners worldwide</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: visual cards -->
+      <div class="hero-visual reveal">
+
+        <!-- Stat strip -->
+        <div class="hv-stats glass float-a">
+          <div class="hvs-item">
+            <span class="hvs-num">96<small>%</small></span>
+            <span class="hvs-label">Placement rate</span>
+          </div>
+          <div class="hvs-div"></div>
+          <div class="hvs-item">
+            <span class="hvs-num">12K<small>+</small></span>
+            <span class="hvs-label">Active learners</span>
+          </div>
+          <div class="hvs-div"></div>
+          <div class="hvs-item">
+            <span class="hvs-num">200<small>+</small></span>
+            <span class="hvs-label">Live courses</span>
+          </div>
+        </div>
+
+        <!-- Course cards -->
+        <div class="hv-course-stack">
+          <div class="hvc-card glass float-b">
+            <div class="hvc-ico">
+              <!-- Globe / language icon -->
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="6" stroke="url(#hvc-g1)" stroke-width="1.1" />
+                <ellipse cx="8" cy="8" rx="2.8" ry="6" stroke="url(#hvc-g1)" stroke-width="1.1" />
+                <path d="M2 8h12M3 5.5h10M3 10.5h10" stroke="url(#hvc-g1)" stroke-width="1.1" stroke-linecap="round" />
+                <defs>
+                  <linearGradient id="hvc-g1" x1="2" y1="2" x2="14" y2="14" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F2BDC8" />
+                    <stop offset="1" stop-color="#8B8FD4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div>
+              <div class="hvc-name">English for Professionals</div>
+              <div class="hvc-meta">12 modules · Beginner–Advanced</div>
+            </div>
+            <span class="hvc-badge free">Free</span>
+          </div>
+
+          <div class="hvc-card glass float-c">
+            <div class="hvc-ico">
+              <!-- Code brackets icon -->
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M5 4.5L1.5 8 5 11.5M11 4.5L14.5 8 11 11.5M9.5 3l-3 10" stroke="url(#hvc-g2)" stroke-width="1.2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+                <defs>
+                  <linearGradient id="hvc-g2" x1="1.5" y1="3" x2="14.5" y2="13" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#8B8FD4" />
+                    <stop offset="1" stop-color="#85B4D4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div>
+              <div class="hvc-name">Full-Stack Development</div>
+              <div class="hvc-meta">28 modules · All levels</div>
+            </div>
+            <span class="hvc-badge pro">Pro</span>
+          </div>
+        </div>
+
+        <!-- Achievement badge -->
+        <div class="hv-ach glass float-c" style="animation-name:fl-c;right:-24px;bottom:24px">
+          <div class="hva-ico">
+            <!-- Award ribbon icon -->
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="7" r="4" stroke="url(#hva-g)" stroke-width="1.1" />
+              <path d="M6.5 10.5l-1.5 6 4-2.5 4 2.5-1.5-6" stroke="url(#hva-g)" stroke-width="1.1"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <defs>
+                <linearGradient id="hva-g" x1="5" y1="3" x2="13" y2="16.5" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#F2BDC8" />
+                  <stop offset="1" stop-color="#8B8FD4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <div class="hva-line1">Certificate unlocked</div>
+            <div class="hva-line2">UI Designer — Level II</div>
+          </div>
+        </div>
+
+        <!-- Progress card -->
+        <div class="hv-prog glass float-d">
+          <div class="hvp-row">
+            <span>Design track</span><span>74%</span>
+          </div>
+          <div class="hvp-bar">
+            <div class="hvp-fill"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="hero-scroll-cue">
+      <span class="hsc-label">Scroll</span>
+      <div class="hsc-line"></div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+     DISCIPLINES (FEATURES)
+════════════════════════════════════════ -->
+  <section id="disciplines" class="sec sec-alt">
+    <div class="sec-wrap">
+      <div class="sec-head">
+        <div class="sec-kicker reveal">Disciplines</div>
+        <h2 class="sec-title reveal">Six paths.<br><em>Unlimited destinations.</em></h2>
+        <p class="sec-sub reveal">Each track is structured around real-world outcomes — not just a certificate on a
+          shelf.</p>
+      </div>
+
+      <div class="disc-grid">
+
+        <a href="courses.html?track=languages" class="disc-card reveal" style="--reveal-delay:0ms" aria-label="Explore Languages track">
+          <div class="dc-ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="url(#dc-g1)" stroke-width="1.1" />
+              <ellipse cx="12" cy="12" rx="4.2" ry="9" stroke="url(#dc-g1)" stroke-width="1.1" />
+              <path d="M3 12h18M5 8h14M5 16h14" stroke="url(#dc-g1)" stroke-width="1.1" stroke-linecap="round" />
+              <defs>
+                <linearGradient id="dc-g1" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#F2BDC8" />
+                  <stop offset="1" stop-color="#8B8FD4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="dc-tag popular">Most enrolled</span>
+          <h3>Languages</h3>
+          <p>English, French, Spanish and more. Communicate across borders with clarity and genuine confidence.</p>
+          <div class="dc-meta">8 courses · 4.9 avg rating</div>
+          <span class="dc-cta">
+            Explore track
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+
+        <a href="courses.html?track=programming" class="disc-card reveal" style="--reveal-delay:70ms" aria-label="Explore Programming track">
+          <div class="dc-ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M8 6L3 12l5 6M16 6l5 6-5 6M14.5 4l-5 16" stroke="url(#dc-g2)" stroke-width="1.2"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <defs>
+                <linearGradient id="dc-g2" x1="3" y1="4" x2="21" y2="20" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#8B8FD4" />
+                  <stop offset="1" stop-color="#85B4D4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>Programming</h3>
+          <p>From fundamentals to full-stack. Build products that people actually use and want to pay for.</p>
+          <div class="dc-meta">15 courses · 4.8 avg rating</div>
+          <span class="dc-cta">
+            Explore track
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+
+        <a href="courses.html?track=marketing" class="disc-card reveal" style="--reveal-delay:140ms" aria-label="Explore Digital Marketing track">
+          <div class="dc-ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M20 7v10M20 12L8 7v10l12-5z" stroke="url(#dc-g3)" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <defs>
+                <linearGradient id="dc-g3" x1="8" y1="7" x2="20" y2="17" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#F2BDC8" />
+                  <stop offset="1" stop-color="#9B9EC4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="dc-tag trend">Trending</span>
+          <h3>Digital Marketing</h3>
+          <p>SEO, paid campaigns, content strategy. Grow audiences that convert into measurable revenue.</p>
+          <div class="dc-meta">10 courses · 4.9 avg rating</div>
+          <span class="dc-cta">
+            Explore track
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+
+        <a href="courses.html?track=uiux" class="disc-card reveal" style="--reveal-delay:210ms" aria-label="Explore UI/UX Design track">
+          <div class="dc-ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <!-- Pen nib icon -->
+              <path d="M12 3l9 9-9 9M12 21V12l-6 3" stroke="url(#dc-g4)" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <circle cx="12" cy="12" r="2.5" fill="url(#dc-g4)" />
+              <defs>
+                <linearGradient id="dc-g4" x1="6" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#85B4D4" />
+                  <stop offset="1" stop-color="#8B8FD4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>UI/UX Design</h3>
+          <p>Figma, design systems, prototyping. Craft interfaces that feel inevitable to use.</p>
+          <div class="dc-meta">12 courses · 4.7 avg rating</div>
+          <span class="dc-cta">
+            Explore track
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+
+        <a href="courses.html?track=data" class="disc-card reveal" style="--reveal-delay:280ms" aria-label="Explore Data and Analytics track">
+          <div class="dc-ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="18" height="18" rx="2.5" stroke="url(#dc-g5)" stroke-width="1.1" />
+              <path d="M7 17l4-7 4 5.5 4-9" stroke="url(#dc-g5)" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <defs>
+                <linearGradient id="dc-g5" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#F2BDC8" />
+                  <stop offset="1" stop-color="#85B4D4" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="dc-tag new">New</span>
+          <h3>Data &amp; Analytics</h3>
+          <p>Excel, Python, visual dashboards. Turn raw numbers into decisions that move organisations.</p>
+          <div class="dc-meta">7 courses · 4.8 avg rating</div>
+          <span class="dc-cta">
+            Explore track
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+
+        <a href="courses.html?track=content" class="disc-card reveal" style="--reveal-delay:350ms" aria-label="Explore Content Creation track">
+          <div class="dc-ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M5 20l2.5-1.5L21 5l-2-2L5.5 17 5 20z" stroke="url(#dc-g6)" stroke-width="1.1"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M19 3l2 2" stroke="url(#dc-g6)" stroke-width="1.1" stroke-linecap="round" />
+              <path d="M5 22h7" stroke="url(#dc-g6)" stroke-width="1.1" stroke-linecap="round" />
+              <defs>
+                <linearGradient id="dc-g6" x1="5" y1="3" x2="21" y2="22" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#9B9EC4" />
+                  <stop offset="1" stop-color="#F2BDC8" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h3>Content Creation</h3>
+          <p>Copywriting, video, storytelling. Build a voice that resonates and an audience that stays.</p>
+          <div class="dc-meta">9 courses · 4.6 avg rating</div>
+          <span class="dc-cta">
+            Explore track
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+     COURSES PREVIEW (STATIC)
+════════════════════════════════════════ -->
+  <section id="courses" class="sec">
+    <div class="sec-wrap">
+      <div class="sec-head split">
+        <div>
+          <div class="sec-kicker reveal">Curriculum</div>
+          <h2 class="sec-title reveal">Courses built<br><em>for the real world.</em></h2>
+        </div>
+        <p class="sec-sub reveal">Every lesson was designed by practitioners with one shared goal — your employment.</p>
+      </div>
+
+      <div class="courses-grid">
+
+        <!-- Course 1 -->
+        <div class="course-card reveal">
+          <div class="cc-thumb" style="--cc-a:#F2BDC8;--cc-b:#D8DAF5">
+            <!-- decorative pattern SVG -->
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity="0.6">
+              <circle cx="24" cy="24" r="16" stroke="rgba(255,255,255,0.55)" stroke-width="1" />
+              <ellipse cx="24" cy="24" rx="7" ry="16" stroke="rgba(255,255,255,0.40)" stroke-width="1" />
+              <path d="M8 24h32" stroke="rgba(255,255,255,0.45)" stroke-width="1" stroke-linecap="round" />
+            </svg>
+            <span class="cc-pill free">Free</span>
+          </div>
+          <div class="cc-body">
+            <div class="cc-cat">Languages</div>
+            <h3>English for Professionals</h3>
+            <p>Master business English and communicate with global teams fluently and with confidence.</p>
+            <div class="cc-foot">
+              <div class="cc-rating">
+                <svg width="58" height="10" viewBox="0 0 58 10" fill="url(#cc-stars)">
+                  <defs>
+                    <linearGradient id="cc-stars" x1="0" y1="0" x2="58" y2="10" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#F2BDC8" />
+                      <stop offset="1" stop-color="#8B8FD4" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z" />
+                  <path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z" />
+                  <path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z" />
+                  <path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z" />
+                  <path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z" />
+                </svg>
+                <span style="font-size:12px;color:var(--t-faint)">4.9 (2,340)</span>
+              </div>
+              <button class="btn-sm" onclick="openAuth('up')">Enrol now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="course-card reveal" style="--reveal-delay:70ms">
+          <div class="cc-thumb" style="--cc-a:#8B8FD4;--cc-b:#D0E8F5">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity="0.6">
+              <path d="M16 18L8 24l8 8M32 18l8 6-8 8M28 10L20 38" stroke="rgba(255,255,255,0.58)" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="cc-pill pro">Pro</span>
+          </div>
+          <div class="cc-body">
+            <div class="cc-cat">Programming</div>
+            <h3>Full-Stack Web Development</h3>
+            <p>HTML through React and Node — launch production-ready applications from day one.</p>
+            <div class="cc-foot">
+              <div class="cc-rating">
+                <svg width="58" height="10" viewBox="0 0 58 10" fill="url(#cc-stars)">
+                  <path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z" />
+                  <path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z" />
+                  <path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z" />
+                  <path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z" />
+                  <path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z" />
+                </svg>
+                <span style="font-size:12px;color:var(--t-faint)">4.8 (1,890)</span>
+              </div>
+              <button class="btn-sm" onclick="openAuth('up')">Enrol now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="course-card reveal" style="--reveal-delay:140ms">
+          <div class="cc-thumb" style="--cc-a:#85B4D4;--cc-b:#DDDFF5">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity="0.6">
+              <path d="M8 36l6-14 6 8 6-12 6 10 6-18" stroke="rgba(255,255,255,0.62)" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="cc-pill new">New</span>
+          </div>
+          <div class="cc-body">
+            <div class="cc-cat">Marketing</div>
+            <h3>Social Media Marketing</h3>
+            <p>Campaigns, analytics, audience growth. Build a presence that converts across every platform.</p>
+            <div class="cc-foot">
+              <div class="cc-rating">
+                <svg width="58" height="10" viewBox="0 0 58 10" fill="url(#cc-stars)">
+                  <path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z" />
+                  <path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z" />
+                  <path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z" />
+                  <path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z" />
+                  <path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z" />
+                </svg>
+                <span style="font-size:12px;color:var(--t-faint)">5.0 (784)</span>
+              </div>
+              <button class="btn-sm" onclick="openAuth('up')">Enrol now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 4 -->
+        <div class="course-card reveal" style="--reveal-delay:210ms">
+          <div class="cc-thumb" style="--cc-a:#9B9EC4;--cc-b:#FDE8ED">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity="0.6">
+              <circle cx="24" cy="18" r="9" stroke="rgba(255,255,255,0.52)" stroke-width="1.2" />
+              <path d="M16 28v14M32 28v14M16 40h16" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"
+                stroke-linecap="round" />
+            </svg>
+            <span class="cc-pill pro">Pro</span>
+          </div>
+          <div class="cc-body">
+            <div class="cc-cat">Design</div>
+            <h3>UI/UX Design Mastery</h3>
+            <p>End-to-end product design — from wireframe to pixel-perfect Figma prototype.</p>
+            <div class="cc-foot">
+              <div class="cc-rating">
+                <svg width="58" height="10" viewBox="0 0 58 10" fill="url(#cc-stars)">
+                  <path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z" />
+                  <path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z" />
+                  <path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z" />
+                  <path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z" />
+                  <path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z" />
+                </svg>
+                <span style="font-size:12px;color:var(--t-faint)">4.7 (1,200)</span>
+              </div>
+              <button class="btn-sm" onclick="openAuth('up')">Enrol now</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sec-cta-row reveal">
+        <a href="courses.html" class="btn-pill-outline">
+          Browse all 200+ courses
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 6.5h9M6.5 2l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+     JOBS PREVIEW (STATIC)
+════════════════════════════════════════ -->
+  <section id="jobs" class="sec sec-alt">
+    <div class="sec-wrap">
+      <div class="sec-head split">
+        <div>
+          <div class="sec-kicker reveal">Opportunities</div>
+          <h2 class="sec-title reveal">Skills that<br><em>open real doors.</em></h2>
+        </div>
+        <p class="sec-sub reveal">Companies actively hiring from our graduate pool — direct pathways, no middlemen.</p>
+      </div>
+
+      <div class="jobs-grid">
+
+        <div class="job-card reveal">
+          <div class="jc-header">
+            <div class="jc-co-logo">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+                <circle cx="8.5" cy="8.5" r="6" stroke="url(#jc-g1)" stroke-width="1.1" />
+                <path d="M5.5 8.5a3 3 0 0 1 6 0" stroke="url(#jc-g1)" stroke-width="1.1" stroke-linecap="round" />
+                <defs>
+                  <linearGradient id="jc-g1" x1="2.5" y1="2.5" x2="14.5" y2="14.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#8B8FD4" />
+                    <stop offset="1" stop-color="#F2BDC8" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="jc-info">
+              <div class="jc-title">UI/UX Designer</div>
+              <div class="jc-co">TechStart Agency</div>
+            </div>
+            <span class="jc-type remote">Remote</span>
+          </div>
+          <div class="jc-tags">
+            <span>Figma</span><span>Design Systems</span><span>Full-time</span>
+          </div>
+          <div class="jc-foot">
+            <span class="jc-salary">$1,200 – $1,800 /mo</span>
+            <button class="btn-sm" onclick="openAuth('up')">Apply</button>
+          </div>
+        </div>
+
+        <div class="job-card reveal" style="--reveal-delay:70ms">
+          <div class="jc-header">
+            <div class="jc-co-logo">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+                <path d="M4.5 5L2 8.5 4.5 12M12.5 5L15 8.5 12.5 12M10.5 3.5L6.5 13.5" stroke="url(#jc-g2)"
+                  stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                <defs>
+                  <linearGradient id="jc-g2" x1="2" y1="3.5" x2="15" y2="13.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#85B4D4" />
+                    <stop offset="1" stop-color="#8B8FD4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="jc-info">
+              <div class="jc-title">Junior Developer</div>
+              <div class="jc-co">Nova Digital</div>
+            </div>
+            <span class="jc-type hybrid">Hybrid</span>
+          </div>
+          <div class="jc-tags">
+            <span>React</span><span>Node.js</span><span>Part-time</span>
+          </div>
+          <div class="jc-foot">
+            <span class="jc-salary">$800 – $1,200 /mo</span>
+            <button class="btn-sm" onclick="openAuth('up')">Apply</button>
+          </div>
+        </div>
+
+        <div class="job-card reveal" style="--reveal-delay:140ms">
+          <div class="jc-header">
+            <div class="jc-co-logo">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+                <path d="M3 12l3-7 3 5 3-7 3 9" stroke="url(#jc-g3)" stroke-width="1.2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <defs>
+                  <linearGradient id="jc-g3" x1="3" y1="5" x2="15" y2="12" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F2BDC8" />
+                    <stop offset="1" stop-color="#9B9EC4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="jc-info">
+              <div class="jc-title">Content Strategist</div>
+              <div class="jc-co">Bloom Brand Co.</div>
+            </div>
+            <span class="jc-type freelance">Freelance</span>
+          </div>
+          <div class="jc-tags">
+            <span>SEO</span><span>Copywriting</span><span>Creative</span>
+          </div>
+          <div class="jc-foot">
+            <span class="jc-salary">$15 – $25 /hr</span>
+            <button class="btn-sm" onclick="openAuth('up')">Apply</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sec-cta-row reveal">
+        <button class="btn-pill-outline" onclick="openAuth('up')">
+          Browse all opportunities
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 6.5h9M6.5 2l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════ -->
+  <section id="testimonials" class="sec">
+    <div class="sec-wrap">
+      <div class="sec-head centered">
+        <div class="sec-kicker reveal">Graduates</div>
+        <h2 class="sec-title reveal">Progress that<br><em>speaks for itself.</em></h2>
+      </div>
+
+      <div class="tes-wrap reveal">
+        <div class="tes-track" id="tesTrack">
+
+          <!-- Slide 1 -->
+          <div class="tes-slide">
+            <div class="tes-quote-mark">
+              <!-- Large open-quote SVG -->
+              <svg width="30" height="22" viewBox="0 0 30 22" fill="none">
+                <path
+                  d="M0 22V13C0 5.8 3.5 1.4 10.5 0l.9 1.9C7.3 2.9 5.2 5.3 4.5 9.5H10V22H0zm19 0V13C19 5.8 22.5 1.4 29.5 0l.9 1.9C26.3 2.9 24.2 5.3 23.5 9.5H29V22H19z"
+                  fill="url(#tqm-g)" />
+                <defs>
+                  <linearGradient id="tqm-g" x1="0" y1="0" x2="30" y2="22" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F2BDC8" stop-opacity="0.35" />
+                    <stop offset="1" stop-color="#8B8FD4" stop-opacity="0.35" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <p class="tes-body">
+              Four months in, I landed my first developer role — not because I got lucky, but because SkillCrafters made
+              sure I was genuinely ready. The gap between this and a standard bootcamp is significant.
+            </p>
+            <div class="tes-person">
+              <img src="https://i.pravatar.cc/46?img=5" alt="Fatima R." loading="lazy">
+              <div>
+                <span class="tes-person-name">Fatima R.</span>
+                <span class="tes-person-title">Junior Developer · TechStart Agency</span>
+                <div class="tes-stars">
+                  <svg width="58" height="10" viewBox="0 0 58 10" fill="url(#tes-stars)">
+                    <defs>
+                      <linearGradient id="tes-stars" x1="0" y1="0" x2="58" y2="10" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#F2BDC8" />
+                        <stop offset="1" stop-color="#8B8FD4" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z" />
+                    <path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z" />
+                    <path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z" />
+                    <path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z" />
+                    <path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="tes-slide">
+            <div class="tes-quote-mark">
+              <svg width="30" height="22" viewBox="0 0 30 22" fill="none">
+                <path
+                  d="M0 22V13C0 5.8 3.5 1.4 10.5 0l.9 1.9C7.3 2.9 5.2 5.3 4.5 9.5H10V22H0zm19 0V13C19 5.8 22.5 1.4 29.5 0l.9 1.9C26.3 2.9 24.2 5.3 23.5 9.5H29V22H19z"
+                  fill="url(#tqm-g2)" />
+                <defs>
+                  <linearGradient id="tqm-g2" x1="0" y1="0" x2="30" y2="22" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#8B8FD4" stop-opacity="0.35" />
+                    <stop offset="1" stop-color="#85B4D4" stop-opacity="0.35" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <p class="tes-body">
+              The UI/UX track restructured how I think about design entirely. Six months in, I have three recurring
+              freelance clients across Europe. My portfolio did the talking.
+            </p>
+            <div class="tes-person">
+              <img src="https://i.pravatar.cc/46?img=47" alt="Amel K." loading="lazy">
+              <div>
+                <span class="tes-person-name">Amel K.</span>
+                <span class="tes-person-title">Freelance Product Designer</span>
+                <div class="tes-stars">
+                  <svg width="58" height="10" viewBox="0 0 58 10" fill="url(#tes-stars)">
+                    <path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z" />
+                    <path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z" />
+                    <path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z" />
+                    <path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z" />
+                    <path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="tes-slide">
+            <div class="tes-quote-mark">
+              <svg width="30" height="22" viewBox="0 0 30 22" fill="none">
+                <path
+                  d="M0 22V13C0 5.8 3.5 1.4 10.5 0l.9 1.9C7.3 2.9 5.2 5.3 4.5 9.5H10V22H0zm19 0V13C19 5.8 22.5 1.4 29.5 0l.9 1.9C26.3 2.9 24.2 5.3 23.5 9.5H29V22H19z"
+                  fill="url(#tqm-g3)" />
+                <defs>
+                  <linearGradient id="tqm-g3" x1="0" y1="0" x2="30" y2="22" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F2BDC8" stop-opacity="0.3" />
+                    <stop offset="1" stop-color="#85B4D4" stop-opacity="0.3" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <p class="tes-body">
+              Data analytics wasn't even on my radar a year ago. Now I present board-level insights every quarter. The
+              Excel and Python modules alone changed the trajectory of my career.
+            </p>
+            <div class="tes-person">
+              <img src="https://i.pravatar.cc/46?img=20" alt="Rania S." loading="lazy">
+              <div>
+                <span class="tes-person-name">Rania S.</span>
+                <span class="tes-person-title">Data Analyst · Insights Hub</span>
+                <div class="tes-stars">
+                  <svg width="58" height="10" viewBox="0 0 58 10" fill="url(#tes-stars)">
+                    <path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z" />
+                    <path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z" />
+                    <path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z" />
+                    <path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z" />
+                    <path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tes-controls">
+          <button class="tes-btn" id="tesPrev" aria-label="Previous">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M8.5 2L4 6.5 8.5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div class="tes-dots" id="tesDots"></div>
+          <button class="tes-btn" id="tesNext" aria-label="Next">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M4.5 2L9 6.5 4.5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+     CTA
+════════════════════════════════════════ -->
+  <section id="cta" class="sec">
+    <div class="cta-bg">
+      <div class="cta-glow-a"></div>
+      <div class="cta-glow-b"></div>
+      <svg class="cta-rings" viewBox="0 0 900 450" fill="none" preserveAspectRatio="xMidYMid slice">
+        <circle cx="450" cy="225" r="310" stroke="rgba(139,143,212,0.07)" stroke-width="1" />
+        <circle cx="450" cy="225" r="200" stroke="rgba(242,189,200,0.08)" stroke-width="1" />
+        <circle cx="450" cy="225" r="100" stroke="rgba(133,180,212,0.08)" stroke-width="1" />
+      </svg>
+    </div>
+    <div class="sec-wrap">
+      <div class="cta-inner reveal">
+        <div class="sec-kicker">The next step</div>
+        <h2 class="cta-h2">Your journey<br><em>continues here.</em></h2>
+        <p class="cta-sub">
+          Over 12,000 learners have already taken this step. The only difference between them and where you want to be
+          is a single decision.
+        </p>
+        <button class="btn-primary large mag" onclick="openAuth('up')">
+          Create your free account
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <path d="M2 7.5h11M7.5 2l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+        <p class="cta-note">No payment required · Cancel anytime · Instant access</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-inner">
+      <!-- Brand col -->
+      <div>
+        <a href="#" class="nav-brand" aria-label="SkillCrafters">
+          <img src="logo.png" alt="SkillCrafters" class="nav-logo-img" style="height:60px; margin-left:-30px">
+          <span class="nav-brand-name" style="margin-left:-15px">SkillCrafters</span>
+        </a>
+        <p class="footer-brand-text">Guidance Towards The Future.<br>Learn. Craft. Launch.</p>
+        <div class="footer-socials">
+          <a href="#" class="fsoc" aria-label="Instagram" onclick="showToast('Instagram','info')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+          </a>
+          <a href="#" class="fsoc" aria-label="LinkedIn" onclick="showToast('LinkedIn','info')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+          </a>
+          <a href="#" class="fsoc" aria-label="Twitter / X" onclick="showToast('Twitter / X','info')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Link cols -->
+      <div class="footer-links">
+        <div class="fl-col">
+          <h4>Learn</h4>
+          <a href="courses.html">All Courses</a>
+          <a href="#disciplines">Languages</a>
+          <a href="#disciplines">Programming</a>
+          <a href="#disciplines">Design</a>
+        </div>
+        <div class="fl-col">
+          <h4>Opportunities</h4>
+          <a href="#jobs">Browse Jobs</a>
+          <a href="#jobs">Freelance</a>
+          <a href="#" onclick="showToast('Mentorship launching soon','info')">Mentorship</a>
+        </div>
+        <div class="fl-col">
+          <h4>Company</h4>
+          <a href="#" onclick="showToast('About page coming soon','info')">About</a>
+          <a href="#" onclick="showToast('Blog coming soon','info')">Blog</a>
+          <a href="#" onclick="showToast('We are hiring!','success')">Careers</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 SkillCrafters — Guidance Towards The Future</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+
+    <!-- ── PERSONAL SIGNATURE ─────────────────── -->
+    <div class="footer-signature">
+      <div class="fsig-divider">
+        <span class="fsig-line"></span>
+        <span class="fsig-ornament">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2L10.8 7H16L11.6 10.2 13.4 15.2 9 12 4.6 15.2 6.4 10.2 2 7H7.2L9 2Z" stroke="url(#fsig-star)" stroke-width="1" fill="none" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="fsig-star" x1="2" y1="2" x2="16" y2="16" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#F2BDC8"/>
+                <stop offset="1" stop-color="#8B8FD4"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="fsig-line"></span>
+      </div>
+      <p class="fsig-crafted">Crafted with intention by</p>
+      <h3 class="fsig-name">MOHCINE LAGHMICH</h3>
+      <p class="fsig-tagline">
+      </p>
+    </div>
+  </footer>
+
+
+
+  <!-- ══ SCRIPTS ══════════════════════════════════ -->
+  <script src="shared.js"></script>
+  <script src="landing.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Courses — SkillCrafters</title>
+  <meta name="description" content="Browse all SkillCrafters courses across Languages, Programming, Marketing, UI/UX, Data and Content tracks. Filter by track and level.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="courses.css">
+</head>
+
+<body>
+
+  <!-- ── SCROLL BAR -->
+  <div id="scroll-bar"></div>
+
+  <!-- ── CURSOR -->
+  <div class="cur-dot" id="curDot"></div>
+  <div class="cur-ring" id="curRing"></div>
+
+  <!-- ── TOAST AREA -->
+  <div id="toast-area"></div>
+
+  <!-- ── AUTH MODAL -->
+  <div class="modal-bg" id="authModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeAuth()" aria-label="Close">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="tabSignIn" onclick="switchAuthTab('in')">Sign in</button>
+        <button class="modal-tab" id="tabSignUp" onclick="switchAuthTab('up')">Create account</button>
+      </div>
+
+      <!-- Sign In Panel -->
+      <div id="panelIn">
+        <div class="modal-intro">
+          <div class="modal-ico">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="8" cy="8" r="5.5" stroke="url(#mi-g)" stroke-width="1.2"/>
+              <path d="M12 12L20 20" stroke="url(#mi-g)" stroke-width="1.2" stroke-linecap="round"/>
+              <defs><linearGradient id="mi-g" x1="2.5" y1="2.5" x2="20" y2="20" gradientUnits="userSpaceOnUse"><stop stop-color="#F2BDC8"/><stop offset="1" stop-color="#8B8FD4"/></linearGradient></defs>
+            </svg>
+          </div>
+          <h2>Good to have you back</h2>
+          <p>Pick up exactly where you left off.</p>
+        </div>
+        <div class="field"><label>Email address</label><input type="email" id="inEmail" placeholder="you@example.com" autocomplete="email"></div>
+        <div class="field"><label>Password</label><input type="password" id="inPass" placeholder="Your password" autocomplete="current-password"></div>
+        <button class="btn-modal-submit" onclick="doSignIn()">
+          Continue
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="demo-divider"><span>or</span></div>
+        <button class="btn-demo-enter" onclick="enterDemoMode()">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 7.5h5M7.5 5l2.5 2.5L7.5 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Welcome to your personal dashboard
+        </button>
+        <p class="modal-alt">No account yet? <a onclick="switchAuthTab('up')">Create one — it's free</a></p>
+      </div>
+
+      <!-- Sign Up Panel -->
+      <div id="panelUp" class="hidden">
+        <div class="modal-intro">
+          <div class="modal-ico">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2l2.2 5.5H19l-4.5 3.5 1.5 5.5L11 13.5l-5 3 1.5-5.5L3 7.5h5.8L11 2z" stroke="url(#mi-g2)" stroke-width="1.1" fill="none"/><defs><linearGradient id="mi-g2" x1="3" y1="2" x2="19" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#8B8FD4"/><stop offset="1" stop-color="#85B4D4"/></linearGradient></defs></svg>
+          </div>
+          <h2>Build something meaningful</h2>
+          <p>Your first step toward a career you're proud of.</p>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>First name</label><input type="text" id="upFirst" placeholder="Sara" autocomplete="given-name"></div>
+          <div class="field"><label>Last name</label><input type="text" id="upLast" placeholder="Khalil" autocomplete="family-name"></div>
+        </div>
+        <div class="field"><label>Email address</label><input type="email" id="upEmail" placeholder="you@example.com" autocomplete="email"></div>
+        <div class="field"><label>Password</label><input type="password" id="upPass" placeholder="At least 6 characters" autocomplete="new-password"></div>
+        <button class="btn-modal-submit" onclick="doSignUp()">
+          Create free account
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <p class="modal-alt">Already a member? <a onclick="switchAuthTab('in')">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NAVBAR -->
+  <nav id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand" aria-label="SkillCrafters home">
+        <img src="logo.png" alt="SkillCrafters logo" class="nav-logo-img">
+        <span class="nav-brand-name">SkillCrafters</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="index.html#disciplines">Skills</a></li>
+        <li><a href="courses.html" class="on">Courses</a></li>
+        <li><a href="index.html#jobs">Opportunities</a></li>
+        <li><a href="index.html#testimonials">Stories</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn-theme" id="themeBtn" aria-label="Toggle colour theme">
+          <svg class="ico-sun" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.93 2.93l1.41 1.41M11.66 11.66l1.41 1.41M2.93 13.07l1.41-1.41M11.66 4.34l1.41-1.41" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <svg class="ico-moon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8.5A6 6 0 016.5 1.5a6 6 0 100 11 6 6 0 007-4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn-nav-ghost" onclick="enterDemoMode()">Sign in</button>
+        <button class="btn-nav-fill" onclick="openAuth('up')">Get started</button>
+      </div>
+      <button class="nav-ham" id="navHam" onclick="toggleMobCourses()" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mob-nav" id="mobNav" role="navigation" aria-label="Mobile menu">
+      <a href="index.html#disciplines" onclick="closeMobCourses()">Skills</a>
+      <a href="courses.html" onclick="closeMobCourses()">Courses</a>
+      <a href="index.html#jobs" onclick="closeMobCourses()">Opportunities</a>
+      <a href="index.html#testimonials" onclick="closeMobCourses()">Stories</a>
+      <div class="mob-auth">
+        <button onclick="enterDemoMode(); closeMobCourses()">Sign in</button>
+        <button onclick="openAuth('up'); closeMobCourses()">Get started free</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════
+       COURSES HERO
+  ════════════════════════════════════════ -->
+  <section id="courses-hero">
+    <div class="ch-glow ch-glow-a"></div>
+    <div class="ch-glow ch-glow-b"></div>
+    <div class="ch-glow ch-glow-c"></div>
+    <div class="ch-hero-wrap">
+      <div class="sec-kicker reveal" id="heroKicker">Curriculum</div>
+      <h1 class="ch-h1 reveal">Explore <em>Courses</em></h1>
+      <p class="ch-sub reveal">Structured learning paths built by industry practitioners — every course leads to real skills, a stronger portfolio, and a clearer path into employment.</p>
+
+      <div class="ch-stats reveal">
+        <div class="ch-stat"><span class="ch-stat-num">200<small>+</small></span><span class="ch-stat-lbl">Live courses</span></div>
+        <div class="ch-stat-div"></div>
+        <div class="ch-stat"><span class="ch-stat-num">6</span><span class="ch-stat-lbl">Tracks</span></div>
+        <div class="ch-stat-div"></div>
+        <div class="ch-stat"><span class="ch-stat-num">12K<small>+</small></span><span class="ch-stat-lbl">Active learners</span></div>
+        <div class="ch-stat-div"></div>
+        <div class="ch-stat"><span class="ch-stat-num">96<small>%</small></span><span class="ch-stat-lbl">Completion rate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FILTER + COURSES GRID
+  ════════════════════════════════════════ -->
+  <section id="courses-main">
+    <div class="cm-wrap">
+
+      <!-- Filter bar -->
+      <div class="cf-bar reveal" id="filterBar" role="tablist" aria-label="Filter by track">
+        <button class="cf-btn active" data-track="all" role="tab" aria-selected="true" onclick="setTrack('all')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2"/></svg>
+          All Courses
+        </button>
+        <button class="cf-btn" data-track="languages" role="tab" onclick="setTrack('languages')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><ellipse cx="7" cy="7" rx="2.4" ry="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 7h11M2.5 4.5h9M2.5 9.5h9" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+          Languages
+        </button>
+        <button class="cf-btn" data-track="programming" role="tab" onclick="setTrack('programming')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4.5 3.5L1.5 7l3 3.5M9.5 3.5L12.5 7l-3 3.5M8.5 2l-3 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Programming
+        </button>
+        <button class="cf-btn" data-track="marketing" role="tab" onclick="setTrack('marketing')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12 4v6M12 7L4 4v6l8-3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Marketing
+        </button>
+        <button class="cf-btn" data-track="uiux" role="tab" onclick="setTrack('uiux')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5l6 6-6 6M7 12.5V7.5l-4 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.8" fill="currentColor"/></svg>
+          UI/UX
+        </button>
+        <button class="cf-btn" data-track="data" role="tab" onclick="setTrack('data')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1.5" width="12" height="11" rx="1.8" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 10L6 5.5l3 3.5 3-6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Data
+        </button>
+        <button class="cf-btn" data-track="content" role="tab" onclick="setTrack('content')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 10.5l1.5-1 8-8-1.5-1.5-8 8L3 10.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Content
+        </button>
+      </div>
+
+      <!-- Active track label -->
+      <div class="cf-label reveal" id="cfLabel">
+        <span id="cfLabelText">Showing all courses</span>
+        <span class="cf-count" id="cfCount">18 courses</span>
+      </div>
+
+      <!-- Courses grid -->
+      <div class="crs-grid" id="coursesGrid"></div>
+
+      <!-- Empty state -->
+      <div class="crs-empty hidden" id="emptyState">
+        <div class="ce-ico">
+          <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+            <circle cx="19" cy="19" r="16" stroke="url(#ce-g)" stroke-width="1.2"/>
+            <path d="M12 19h14M19 12v14" stroke="url(#ce-g)" stroke-width="1.4" stroke-linecap="round"/>
+            <defs><linearGradient id="ce-g" x1="3" y1="3" x2="35" y2="35" gradientUnits="userSpaceOnUse"><stop stop-color="#F2BDC8"/><stop offset="1" stop-color="#8B8FD4"/></linearGradient></defs>
+          </svg>
+        </div>
+        <h3>No courses in this track yet</h3>
+        <p>Check back soon — we're always adding new content.</p>
+        <button class="btn-pill-outline" onclick="setTrack('all')">View all courses</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <a href="index.html" class="nav-brand" aria-label="SkillCrafters">
+          <img src="logo.png" alt="SkillCrafters" class="nav-logo-img" style="height:60px;margin-left:-30px">
+          <span class="nav-brand-name" style="margin-left:-15px">SkillCrafters</span>
+        </a>
+        <p class="footer-brand-text">Guidance Towards The Future.<br>Learn. Craft. Launch.</p>
+        <div class="footer-socials">
+          <a href="#" class="fsoc" aria-label="Instagram" onclick="showToast('Instagram coming soon','info')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="#" class="fsoc" aria-label="LinkedIn" onclick="showToast('LinkedIn coming soon','info')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="fl-col">
+          <h4>Tracks</h4>
+          <a href="courses.html?track=languages">Languages</a>
+          <a href="courses.html?track=programming">Programming</a>
+          <a href="courses.html?track=marketing">Marketing</a>
+          <a href="courses.html?track=uiux">UI/UX Design</a>
+          <a href="courses.html?track=data">Data &amp; Analytics</a>
+          <a href="courses.html?track=content">Content</a>
+        </div>
+        <div class="fl-col">
+          <h4>Opportunities</h4>
+          <a href="index.html#jobs">Browse Jobs</a>
+          <a href="index.html#jobs">Freelance</a>
+          <a href="#" onclick="showToast('Mentorship launching soon','info')">Mentorship</a>
+        </div>
+        <div class="fl-col">
+          <h4>Company</h4>
+          <a href="#" onclick="showToast('About page coming soon','info')">About</a>
+          <a href="#" onclick="showToast('Blog coming soon','info')">Blog</a>
+          <a href="#" onclick="showToast('We are hiring!','success')">Careers</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SkillCrafters — Guidance Towards The Future</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a>
+      </div>
+    </div>
+    <div class="footer-signature">
+      <div class="fsig-divider">
+        <span class="fsig-line"></span>
+        <span class="fsig-ornament">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L10.8 7H16L11.6 10.2 13.4 15.2 9 12 4.6 15.2 6.4 10.2 2 7H7.2L9 2Z" stroke="url(#fsig-star)" stroke-width="1" fill="none" stroke-linejoin="round"/><defs><linearGradient id="fsig-star" x1="2" y1="2" x2="16" y2="16" gradientUnits="userSpaceOnUse"><stop stop-color="#F2BDC8"/><stop offset="1" stop-color="#8B8FD4"/></linearGradient></defs></svg>
+        </span>
+        <span class="fsig-line"></span>
+      </div>
+      <p class="fsig-crafted">Crafted with intention by</p>
+      <h3 class="fsig-name">MOHCINE LAGHMICH</h3>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS -->
+  <script src="shared.js"></script>
+  <script>
+    /* ══════════════════════════════════════════
+       COURSE DATA
+    ══════════════════════════════════════════ */
+    const COURSES = [
+      // LANGUAGES
+      { id: 1, track: 'languages', title: 'English for Professionals', desc: 'Master business English and communicate with global teams fluently and with confidence.', level: 'Beginner', duration: '8 weeks', rating: 4.9, reviews: 2340, badge: 'free', color: ['#F2BDC8','#D8DAF5'], icon: 'globe' },
+      { id: 2, track: 'languages', title: 'French from Zero to B2', desc: 'Conversational and professional French. Structured progression from the alphabet to fluency.', level: 'Beginner', duration: '12 weeks', rating: 4.8, reviews: 1120, badge: 'pro', color: ['#D8DAF5','#F2BDC8'], icon: 'globe' },
+      { id: 3, track: 'languages', title: 'Spanish for Business', desc: 'Communicate in Spanish across Latin American and European markets with cultural fluency.', level: 'Intermediate', duration: '10 weeks', rating: 4.7, reviews: 890, badge: 'free', color: ['#FBE8EF','#D0E8F5'], icon: 'globe' },
+      // PROGRAMMING
+      { id: 4, track: 'programming', title: 'Full-Stack Web Development', desc: 'HTML through React and Node — launch production-ready applications from day one.', level: 'Beginner', duration: '16 weeks', rating: 4.8, reviews: 1890, badge: 'pro', color: ['#8B8FD4','#D0E8F5'], icon: 'code' },
+      { id: 5, track: 'programming', title: 'Python for Automation', desc: 'Automate repetitive tasks, process data and build scripts that save hundreds of hours.', level: 'Intermediate', duration: '8 weeks', rating: 4.9, reviews: 1340, badge: 'pro', color: ['#85B4D4','#DDDFF5'], icon: 'code' },
+      { id: 6, track: 'programming', title: 'JavaScript & TypeScript Mastery', desc: 'Go deep on the language powering the modern web — async patterns, types, and architecture.', level: 'Advanced', duration: '10 weeks', rating: 4.7, reviews: 760, badge: 'pro', color: ['#D8DAF5','#D0E8F5'], icon: 'code' },
+      { id: 7, track: 'programming', title: 'Mobile App Development with React Native', desc: 'Build cross-platform iOS and Android apps using the JavaScript you already know.', level: 'Intermediate', duration: '12 weeks', rating: 4.6, reviews: 610, badge: 'pro', color: ['#FBE8EF','#D8DAF5'], icon: 'code' },
+      // MARKETING
+      { id: 8, track: 'marketing', title: 'Social Media Marketing', desc: 'Campaigns, analytics, audience growth. Build a presence that converts across every platform.', level: 'Beginner', duration: '6 weeks', rating: 5.0, reviews: 784, badge: 'new', color: ['#85B4D4','#DDDFF5'], icon: 'marketing' },
+      { id: 9, track: 'marketing', title: 'SEO & Content Strategy', desc: 'Rank higher, drive organic traffic and structure a content machine that compounds over time.', level: 'Intermediate', duration: '8 weeks', rating: 4.8, reviews: 1050, badge: 'pro', color: ['#DDDFF5','#FBE8EF'], icon: 'marketing' },
+      { id: 10, track: 'marketing', title: 'Google & Meta Ads Mastery', desc: 'Run profitable paid campaigns — targeting, creatives, budget optimisation and attribution.', level: 'Advanced', duration: '6 weeks', rating: 4.9, reviews: 920, badge: 'pro', color: ['#D0E8F5','#D8DAF5'], icon: 'marketing' },
+      // UI/UX
+      { id: 11, track: 'uiux', title: 'UI/UX Design Mastery', desc: 'End-to-end product design — from wireframe to pixel-perfect Figma prototype.', level: 'Beginner', duration: '14 weeks', rating: 4.7, reviews: 1200, badge: 'pro', color: ['#9B9EC4','#FBE8EF'], icon: 'design' },
+      { id: 12, track: 'uiux', title: 'Design Systems in Figma', desc: 'Build scalable component libraries and design tokens that teams of any size can rely on.', level: 'Intermediate', duration: '8 weeks', rating: 4.8, reviews: 680, badge: 'pro', color: ['#FBE8EF','#D8DAF5'], icon: 'design' },
+      { id: 13, track: 'uiux', title: 'User Research & Testing', desc: 'Validate ideas before you build them. From interviews to usability tests to insight reports.', level: 'Beginner', duration: '6 weeks', rating: 4.6, reviews: 440, badge: 'free', color: ['#D8DAF5','#FBE8EF'], icon: 'design' },
+      // DATA
+      { id: 14, track: 'data', title: 'Data & Analytics Foundations', desc: 'Excel, Python, visual dashboards. Turn raw numbers into decisions that move organisations.', level: 'Beginner', duration: '10 weeks', rating: 4.8, reviews: 980, badge: 'new', color: ['#F2BDC8','#D0E8F5'], icon: 'data' },
+      { id: 15, track: 'data', title: 'SQL for Data Analysis', desc: 'Write queries that answer business questions — joins, aggregations, window functions and CTEs.', level: 'Intermediate', duration: '6 weeks', rating: 4.9, reviews: 760, badge: 'pro', color: ['#D0E8F5','#F2BDC8'], icon: 'data' },
+      { id: 16, track: 'data', title: 'Data Visualisation with Power BI', desc: 'Craft interactive dashboards that tell clear stories from complex datasets.', level: 'Intermediate', duration: '8 weeks', rating: 4.7, reviews: 530, badge: 'pro', color: ['#DDDFF5','#FBE8EF'], icon: 'data' },
+      // CONTENT
+      { id: 17, track: 'content', title: 'Copywriting for Conversions', desc: 'Write words that sell — landing pages, emails and ads that move people to act.', level: 'Beginner', duration: '6 weeks', rating: 4.6, reviews: 870, badge: 'free', color: ['#9B9EC4','#F2BDC8'], icon: 'content' },
+      { id: 18, track: 'content', title: 'Video Storytelling & Editing', desc: 'Shoot, edit and publish compelling video content for any platform using accessible tools.', level: 'Intermediate', duration: '8 weeks', rating: 4.8, reviews: 640, badge: 'pro', color: ['#F2BDC8','#9B9EC4'], icon: 'content' },
+    ];
+
+    const TRACK_NAMES = {
+      all: 'all courses', languages: 'Languages', programming: 'Programming',
+      marketing: 'Marketing', uiux: 'UI/UX Design', data: 'Data & Analytics', content: 'Content Creation'
+    };
+
+    function trackIcon(type) {
+      const icons = {
+        globe:     `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="url(#cic-g)" stroke-width="1.1"/><ellipse cx="10" cy="10" rx="3.2" ry="7.5" stroke="url(#cic-g)" stroke-width="1.1"/><path d="M2.5 10h15M4 6.5h12M4 13.5h12" stroke="url(#cic-g)" stroke-width="1" stroke-linecap="round"/><defs><linearGradient id="cic-g" x1="2.5" y1="2.5" x2="17.5" y2="17.5" gradientUnits="userSpaceOnUse"><stop stop-color="#F2BDC8"/><stop offset="1" stop-color="#8B8FD4"/></linearGradient></defs></svg>`,
+        code:      `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6.5 5.5L2 10l4.5 4.5M13.5 5.5L18 10l-4.5 4.5M12 3.5l-4 13" stroke="url(#cic-g2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="cic-g2" x1="2" y1="3.5" x2="18" y2="16.5" gradientUnits="userSpaceOnUse"><stop stop-color="#8B8FD4"/><stop offset="1" stop-color="#85B4D4"/></linearGradient></defs></svg>`,
+        marketing: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16 5.5v9M16 10L6 5.5v9l10-4.5z" stroke="url(#cic-g3)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="cic-g3" x1="6" y1="5.5" x2="16" y2="14.5" gradientUnits="userSpaceOnUse"><stop stop-color="#F2BDC8"/><stop offset="1" stop-color="#9B9EC4"/></linearGradient></defs></svg>`,
+        design:    `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l7.5 7.5-7.5 7.5M10 17.5V10L5.5 12.5" stroke="url(#cic-g4)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="10" r="2.5" fill="url(#cic-g4)"/><defs><linearGradient id="cic-g4" x1="5.5" y1="2" x2="17.5" y2="17.5" gradientUnits="userSpaceOnUse"><stop stop-color="#85B4D4"/><stop offset="1" stop-color="#8B8FD4"/></linearGradient></defs></svg>`,
+        data:      `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2.5" stroke="url(#cic-g5)" stroke-width="1.1"/><path d="M5 14.5l3.5-6 4 5 4-8" stroke="url(#cic-g5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="cic-g5" x1="2" y1="2" x2="18" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#F2BDC8"/><stop offset="1" stop-color="#85B4D4"/></linearGradient></defs></svg>`,
+        content:   `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 14l2-1.5L17 2.5 15.5 1 4.5 12.5 4 14z" stroke="url(#cic-g6)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5h7" stroke="url(#cic-g6)" stroke-width="1.1" stroke-linecap="round"/><defs><linearGradient id="cic-g6" x1="4" y1="1" x2="17" y2="16.5" gradientUnits="userSpaceOnUse"><stop stop-color="#9B9EC4"/><stop offset="1" stop-color="#F2BDC8"/></linearGradient></defs></svg>`,
+      };
+      return icons[type] || icons.code;
+    }
+
+    function starsSVG() {
+      return `<svg width="58" height="10" viewBox="0 0 58 10" fill="url(#crs-stars)"><defs><linearGradient id="crs-stars" x1="0" y1="0" x2="58" y2="10" gradientUnits="userSpaceOnUse"><stop stop-color="#F2BDC8"/><stop offset="1" stop-color="#8B8FD4"/></linearGradient></defs><path d="M4.5 1l.9 2.5H8l-2 1.5.7 2.5L4.5 6.2 2.3 7.5l.7-2.5L1 3.5h2.6L4.5 1z"/><path d="M16.5 1l.9 2.5H20l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L16.5 1z"/><path d="M28.5 1l.9 2.5H32l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L28.5 1z"/><path d="M40.5 1l.9 2.5H44l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L40.5 1z"/><path d="M52.5 1l.9 2.5H56l-2 1.5.7 2.5-2.2-1.3-2.2 1.3.7-2.5-2-1.5h2.6L52.5 1z"/></svg>`;
+    }
+
+    function buildCard(c, i) {
+      const levelClass = c.level === 'Beginner' ? 'lv-beg' : c.level === 'Intermediate' ? 'lv-mid' : 'lv-adv';
+      return `
+        <div class="crs-card reveal" style="--reveal-delay:${(i % 3) * 80}ms" data-track="${c.track}" data-id="${c.id}">
+          <div class="crs-thumb" style="--ca:${c.color[0]};--cb:${c.color[1]}">
+            <div class="crs-thumb-ico">${trackIcon(c.icon)}</div>
+            <span class="crs-badge ${c.badge}">${c.badge === 'new' ? 'New' : c.badge === 'free' ? 'Free' : 'Pro'}</span>
+            <span class="crs-level ${levelClass}">${c.level}</span>
+          </div>
+          <div class="crs-body">
+            <div class="crs-track-tag">${TRACK_NAMES[c.track]}</div>
+            <h3>${c.title}</h3>
+            <p>${c.desc}</p>
+            <div class="crs-meta-row">
+              <span class="crs-dur">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.1"/><path d="M6 3.5v2.8l1.8 1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+                ${c.duration}
+              </span>
+            </div>
+            <div class="crs-foot">
+              <div class="crs-rating">
+                ${starsSVG()}
+                <span>${c.rating} (${c.reviews.toLocaleString()})</span>
+              </div>
+              <button class="btn-sm crs-cta" onclick="openAuth('up')">
+                Start course
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 5.5h8M5.5 1.5l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    /* ══════════════════════════════════════════
+       FILTERING
+    ══════════════════════════════════════════ */
+    let activeTrack = 'all';
+    let revealObserver;
+
+    function setTrack(track, pushState = true) {
+      activeTrack = track;
+      localStorage.setItem('sc-last-track', track);
+
+      document.querySelectorAll('.cf-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.track === track);
+        b.setAttribute('aria-selected', b.dataset.track === track ? 'true' : 'false');
+      });
+
+      const filtered = track === 'all' ? COURSES : COURSES.filter(c => c.track === track);
+
+      document.getElementById('cfLabelText').textContent = track === 'all' ? 'Showing all courses' : `Track: ${TRACK_NAMES[track]}`;
+      document.getElementById('cfCount').textContent = `${filtered.length} course${filtered.length !== 1 ? 's' : ''}`;
+
+      const grid  = document.getElementById('coursesGrid');
+      const empty = document.getElementById('emptyState');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        grid.classList.add('hidden');
+        empty.classList.remove('hidden');
+      } else {
+        grid.classList.remove('hidden');
+        empty.classList.add('hidden');
+        grid.innerHTML = filtered.map((c, i) => buildCard(c, i)).join('');
+        grid.querySelectorAll('.reveal').forEach(el => revealObserver && revealObserver.observe(el));
+      }
+
+      if (pushState) {
+        const url = track === 'all' ? window.location.pathname : `${window.location.pathname}?track=${track}`;
+        history.pushState({ track }, '', url);
+      }
+    }
+
+    function readURLTrack() {
+      const params = new URLSearchParams(window.location.search);
+      const t = params.get('track') || localStorage.getItem('sc-last-track') || 'all';
+      const valid = ['all','languages','programming','marketing','uiux','data','content'];
+      return valid.includes(t) ? t : 'all';
+    }
+
+    function initReveal() {
+      revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const d = parseInt(e.target.style.getPropertyValue('--reveal-delay')) || 0;
+          setTimeout(() => e.target.classList.add('visible'), d);
+          revealObserver.unobserve(e.target);
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    }
+
+    /* ══════════════════════════════════════════
+       INIT
+    ══════════════════════════════════════════ */
+
+    /* Theme */
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('sc-theme');
+    if (savedTheme) html.setAttribute('data-theme', savedTheme);
+    document.getElementById('themeBtn').addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('sc-theme', next);
+    });
+
+    /* Modal backdrop close */
+    document.getElementById('authModal').addEventListener('click', e => {
+      if (e.target === document.getElementById('authModal')) closeAuth();
+    });
+
+    /* Enter key on modal fields */
+    document.getElementById('panelIn').addEventListener('keydown', e => { if (e.key === 'Enter') doSignIn(); });
+    document.getElementById('panelUp').addEventListener('keydown', e => { if (e.key === 'Enter') doSignUp(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
+
+    /* Mobile nav */
+    window.toggleMobCourses = function() {
+      const d  = document.getElementById('mobNav');
+      const h  = document.getElementById('navHam');
+      const sp = h.querySelectorAll('span');
+      const open = d.classList.toggle('open');
+      sp[0].style.transform = open ? 'rotate(45deg) translate(5px,5px)'  : '';
+      sp[1].style.opacity   = open ? '0' : '1';
+      sp[2].style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
+    };
+    window.closeMobCourses = function() {
+      document.getElementById('mobNav').classList.remove('open');
+      const sp = document.getElementById('navHam').querySelectorAll('span');
+      sp[0].style.transform = sp[2].style.transform = '';
+      sp[1].style.opacity = '1';
+    };
+
+    /* Cursor */
+    const cDot  = document.getElementById('curDot');
+    const cRing = document.getElementById('curRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cDot.style.left = mx + 'px'; cDot.style.top = my + 'px';
+    });
+    (function rLoop() {
+      rx += (mx - rx) * .12; ry += (my - ry) * .12;
+      cRing.style.left = rx + 'px'; cRing.style.top = ry + 'px';
+      requestAnimationFrame(rLoop);
+    })();
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest('a,button,input,.crs-card,.cf-btn')) cRing.classList.add('expanded');
+      else cRing.classList.remove('expanded');
+    });
+
+    /* Scroll bar */
+    const scrollBar = document.getElementById('scroll-bar');
+    window.addEventListener('scroll', () => {
+      const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      scrollBar.style.width = Math.min(p * 100, 100) + '%';
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 44);
+    }, { passive: true });
+
+    /* Run */
+    initReveal();
+    setTrack(readURLTrack(), false);
+
+    window.addEventListener('popstate', e => {
+      setTrack((e.state && e.state.track) || readURLTrack(), false);
+    });
+
+    /* Page fade-in */
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.4s ease';
+    requestAnimationFrame(() => requestAnimationFrame(() => { document.body.style.opacity = '1'; }));
+  </script>
+
+</body>
+</html>

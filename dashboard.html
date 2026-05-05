@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — SkillCrafters</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+  <!-- ── BACKGROUND MESH ──────────────────────── -->
+  <div class="db-mesh"></div>
+
+  <!-- ── MOBILE SIDEBAR OVERLAY ───────────────── -->
+  <div class="db-sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+
+  <!-- ══════════════════════════════════════════
+     APP SHELL
+══════════════════════════════════════════ -->
+  <div class="db-shell">
+
+    <!-- ── SIDEBAR ─────────────────────────────── -->
+    <aside class="db-sidebar" id="dbSidebar">
+
+      <!-- Brand -->
+      <a href="index.html" class="sb-brand" aria-label="SkillCrafters home">
+        <img src="logo.png" alt="SkillCrafters logo" class="sb-brand-img" style="height:58px">
+        <span class="sb-brand-name">SkillCrafters</span>
+      </a>
+
+      <!-- User mini-profile -->
+      <div class="sb-user">
+        <div class="sb-avatar" id="sbAvatar">SC</div>
+        <div class="sb-user-info">
+          <div class="sb-user-name" id="sbUserName">Loading…</div>
+          <div class="sb-user-role">Learner · Level <span id="sbLevel">1</span></div>
+        </div>
+      </div>
+
+      <!-- XP bar -->
+      <div class="sb-xp-bar-wrap">
+        <div class="sb-xp-label">
+          <span>XP Progress</span>
+          <span id="sbXpText">0 / 500</span>
+        </div>
+        <div class="sb-xp-track">
+          <div class="sb-xp-fill" id="sbXpFill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <div class="sb-nav-label">Menu</div>
+      <nav class="sb-nav">
+        <a class="sb-nav-item active" href="javascript:void(0)" onclick="showSection('overview'); return false;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3" />
+            <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3" />
+            <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3" />
+            <rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3" />
+          </svg>
+          Overview
+        </a>
+        <a class="sb-nav-item" href="javascript:void(0)" onclick="showSection('courses'); return false;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+          </svg>
+          My Courses
+          <span class="sb-nav-badge" id="sbCourseBadge">0</span>
+        </a>
+        <a class="sb-nav-item" href="javascript:void(0)" onclick="showSection('jobs'); return false;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="2" y="5" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3" />
+            <path d="M5 5V3.5A1.5 1.5 0 016.5 2h3A1.5 1.5 0 0111 3.5V5" stroke="currentColor" stroke-width="1.3" />
+          </svg>
+          Jobs
+          <span class="sb-nav-badge" id="sbJobBadge">0</span>
+        </a>
+        <a class="sb-nav-item" href="javascript:void(0)" onclick="showSection('badges'); return false;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="6.5" r="4" stroke="currentColor" stroke-width="1.3" />
+            <path d="M5.5 10l-1.5 5 4-2.5 4 2.5-1.5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          Badges
+        </a>
+        <a class="sb-nav-item" href="javascript:void(0)" onclick="showSection('activity'); return false;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M1 8h2.5l2-5 3 10 2-7 2 4.5H15" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          Activity
+        </a>
+      </nav>
+
+      <div class="sb-nav-label" style="margin-top:8px">Account</div>
+      <nav class="sb-nav">
+        <a class="sb-nav-item" href="javascript:void(0)" onclick="showSection('profile'); return false;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="5.5" r="3" stroke="currentColor" stroke-width="1.3" />
+            <path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.3"
+              stroke-linecap="round" />
+          </svg>
+          Profile
+        </a>
+        <a class="sb-nav-item" href="javascript:void(0)" onclick="toggleThemeDb(); return false;" id="sbThemeItem">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2" />
+            <path
+              d="M8 1v2M8 13v2M1 8h2M13 8h2M2.93 2.93l1.41 1.41M11.66 11.66l1.41 1.41M2.93 13.07l1.41-1.41M11.66 4.34l1.41-1.41"
+              stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+          <span id="sbThemeLabel">Light mode</span>
+        </a>
+      </nav>
+
+      <!-- Sign out -->
+      <div class="sb-footer">
+        <button class="sb-sign-out" onclick="sessionStorage.removeItem('sc-demo'); SC.Auth.signOut()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 2h3a1 1 0 011 1v10a1 1 0 01-1 1h-3M7 11l3-3-3-3M10 8H2" stroke="currentColor"
+              stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          Sign out
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ── TOP BAR ──────────────────────────────── -->
+    <header class="db-topbar">
+      <button class="db-ham-btn" id="dbHamBtn" onclick="openSidebar()" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div>
+        <div class="db-topbar-title" id="topbarTitle">Overview</div>
+      </div>
+
+      <div class="db-search">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3" />
+          <path d="M9.5 9.5L13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+        </svg>
+        <input type="text" placeholder="Search courses…" aria-label="Search">
+      </div>
+
+      <div class="db-topbar-actions">
+        <button class="db-icon-btn" aria-label="Notifications" title="Notifications">
+          <span class="notif-dot"></span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 2a4.5 4.5 0 00-4.5 4.5V9L2 11h12l-1.5-2V6.5A4.5 4.5 0 008 2z" stroke="currentColor"
+              stroke-width="1.3" stroke-linejoin="round" />
+            <path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" />
+          </svg>
+        </button>
+        <div class="db-topbar-avatar" id="topbarAvatar" title="Profile" onclick="showSection('profile')"
+          style="cursor:pointer">SC</div>
+      </div>
+    </header>
+
+    <!-- ── MAIN CONTENT ─────────────────────────── -->
+    <main class="db-main" id="dbMain">
+
+      <!-- ════════════════════════════════════════
+         SECTION: OVERVIEW
+    ════════════════════════════════════════ -->
+      <section id="sec-overview">
+
+        <!-- Welcome strip -->
+        <div class="db-welcome-strip">
+          <div class="db-welcome-text">
+            <h2>Good to see you, <em id="welcomeName">there</em></h2>
+            <p id="welcomeSub">Continue your learning journey — you're making great progress.</p>
+          </div>
+          <div class="db-welcome-stats">
+            <div class="db-w-stat">
+              <div class="db-w-stat-num" id="statCourses">0</div>
+              <div class="db-w-stat-label">Courses</div>
+            </div>
+            <div class="db-w-stat">
+              <div class="db-w-stat-num" id="statXP">0</div>
+              <div class="db-w-stat-label">XP Earned</div>
+            </div>
+            <div class="db-w-stat">
+              <div class="db-w-stat-num" id="statBadges">0</div>
+              <div class="db-w-stat-label">Badges</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 1: courses + streak -->
+        <div class="db-grid-2 mb-28">
+
+          <!-- Active courses -->
+          <div class="db-card" id="overviewCoursesCard">
+            <div class="db-section-head">
+              <span class="db-section-title">Current Courses</span>
+              <span class="db-section-link" onclick="showSection('courses')">View all →</span>
+            </div>
+            <div id="overviewCoursesList"></div>
+          </div>
+
+          <!-- Streak + XP ring -->
+          <div class="db-card">
+            <div class="db-section-head">
+              <span class="db-section-title">Your Progress</span>
+            </div>
+            <!-- Streak -->
+            <div class="dbc-streak">
+              <div class="dbc-streak-info">
+                <h3 id="streakNum">0 days</h3>
+                <p>Learning streak</p>
+              </div>
+            </div>
+            <div class="dbc-streak-days" id="streakDays"></div>
+
+            <!-- XP ring (mini) -->
+            <div style="margin-top:20px">
+              <div class="dbc-xp-ring-wrap">
+                <div class="dbc-xp-ring">
+                  <svg viewBox="0 0 72 72" width="72" height="72">
+                    <defs>
+                      <linearGradient id="xp-ring-grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#F2BDC8" />
+                        <stop offset="50%" stop-color="#8B8FD4" />
+                        <stop offset="100%" stop-color="#85B4D4" />
+                      </linearGradient>
+                    </defs>
+                    <circle class="dbc-xp-ring-bg" cx="36" cy="36" r="30" stroke-width="5" />
+                    <circle class="dbc-xp-ring-fill" cx="36" cy="36" r="30" stroke-width="5" id="xpRingFill" />
+                  </svg>
+                  <div class="dbc-xp-ring-label">
+                    <span class="dbc-xp-ring-num" id="xpRingNum">0</span>
+                    <span class="dbc-xp-ring-unit">XP</span>
+                  </div>
+                </div>
+                <div class="dbc-xp-info">
+                  <h3 id="xpLevelLabel">Level 1</h3>
+                  <p id="xpNextLabel">Earn <strong>500 XP</strong> to reach Level 2.<br>Keep going!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Row 2: recent activity + applied jobs -->
+        <div class="db-grid-2 mb-28">
+
+          <div class="db-card">
+            <div class="db-section-head">
+              <span class="db-section-title">Recent Activity</span>
+              <span class="db-section-link" onclick="showSection('activity')">All →</span>
+            </div>
+            <div class="dbc-activity-list" id="overviewActivityList"></div>
+          </div>
+
+          <div class="db-card">
+            <div class="db-section-head">
+              <span class="db-section-title">Applied Jobs</span>
+              <span class="db-section-link" onclick="showSection('jobs')">All →</span>
+            </div>
+            <div id="overviewJobsList"></div>
+          </div>
+
+        </div>
+
+        <!-- Row 3: quick enrol -->
+        <div class="db-card mb-28">
+          <div class="db-section-head">
+            <span class="db-section-title">Recommended for You</span>
+          </div>
+          <div class="dbc-enrol-list" id="recommendedList"></div>
+        </div>
+
+      </section>
+
+      <!-- ════════════════════════════════════════
+         SECTION: MY COURSES
+    ════════════════════════════════════════ -->
+      <section id="sec-courses" style="display:none">
+        <div class="db-section-head">
+          <span class="db-section-title" style="font-size:20px">My Courses</span>
+        </div>
+        <div class="db-grid-2 mb-28" id="fullCoursesList"></div>
+        <div class="db-card">
+          <div class="db-section-head">
+            <span class="db-section-title">Available to Enrol</span>
+          </div>
+          <div class="dbc-enrol-list" id="fullEnrolList"></div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════
+         SECTION: JOBS
+    ════════════════════════════════════════ -->
+      <section id="sec-jobs" style="display:none">
+        <div class="db-section-head">
+          <span class="db-section-title" style="font-size:20px">Opportunities</span>
+        </div>
+        <div class="db-grid-2 mb-28" id="fullJobsList"></div>
+      </section>
+
+      <!-- ════════════════════════════════════════
+         SECTION: BADGES
+    ════════════════════════════════════════ -->
+      <section id="sec-badges" style="display:none">
+        <div class="db-section-head">
+          <span class="db-section-title" style="font-size:20px">Badges &amp; Achievements</span>
+        </div>
+        <div class="db-card">
+          <div class="dbc-xp-ring-wrap" style="margin-bottom:24px">
+            <div class="dbc-xp-ring">
+              <svg viewBox="0 0 72 72" width="72" height="72">
+                <defs>
+                  <linearGradient id="xp-ring-grad2" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#F2BDC8" />
+                    <stop offset="50%" stop-color="#8B8FD4" />
+                    <stop offset="100%" stop-color="#85B4D4" />
+                  </linearGradient>
+                </defs>
+                <circle class="dbc-xp-ring-bg" cx="36" cy="36" r="30" stroke-width="5" />
+                <circle class="dbc-xp-ring-fill" cx="36" cy="36" r="30" stroke-width="5" id="xpRingFill2" />
+              </svg>
+              <div class="dbc-xp-ring-label">
+                <span class="dbc-xp-ring-num" id="xpRingNum2">0</span>
+                <span class="dbc-xp-ring-unit">XP</span>
+              </div>
+            </div>
+            <div class="dbc-xp-info">
+              <h3 id="xpLevelLabel2">Level 1</h3>
+              <p id="xpNextLabel2">500 XP to next level</p>
+            </div>
+          </div>
+          <div class="dbc-badges-grid" id="fullBadgesList"></div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════
+         SECTION: ACTIVITY
+    ════════════════════════════════════════ -->
+      <section id="sec-activity" style="display:none">
+        <div class="db-section-head">
+          <span class="db-section-title" style="font-size:20px">Activity Log</span>
+        </div>
+        <div class="db-card">
+          <div class="dbc-activity-list" id="fullActivityList"></div>
+        </div>
+      </section>
+
+      <!-- ════════════════════════════════════════
+         SECTION: PROFILE
+    ════════════════════════════════════════ -->
+      <section id="sec-profile" style="display:none">
+        <div class="db-section-head">
+          <span class="db-section-title" style="font-size:20px">My Profile</span>
+        </div>
+
+        <!-- Profile info card -->
+        <div class="db-card" style="margin-bottom:18px">
+          <div style="display:flex;align-items:center;gap:20px;margin-bottom:24px">
+            <div id="profileAvatar" style="
+            width:64px;height:64px;border-radius:50%;
+            background:var(--g-brand);
+            display:flex;align-items:center;justify-content:center;
+            font-family:var(--db-f-head);font-size:22px;font-weight:700;color:#fff;
+            flex-shrink:0;
+          ">SC</div>
+            <div>
+              <div id="profileFullName"
+                style="font-family:var(--db-f-head);font-size:20px;font-weight:700;color:var(--t-ink);line-height:1.2">
+                Mohcine Lag</div>
+              <div id="profileEmail" style="font-size:13px;color:var(--t-muted);margin-top:4px"></div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div
+              style="background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 16px">
+              <div
+                style="font-size:11px;font-weight:600;color:var(--t-faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">
+                Full Name</div>
+              <div id="profileNameField" style="font-size:14px;font-weight:500;color:var(--t-ink)">Mohcine Lag</div>
+            </div>
+            <div
+              style="background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 16px">
+              <div
+                style="font-size:11px;font-weight:600;color:var(--t-faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">
+                Email</div>
+              <div id="profileEmailField" style="font-size:14px;font-weight:500;color:var(--t-ink)"></div>
+            </div>
+            <div
+              style="background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 16px">
+              <div
+                style="font-size:11px;font-weight:600;color:var(--t-faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">
+                Level</div>
+              <div id="profileLevel" style="font-size:14px;font-weight:500;color:var(--t-ink)">Level 1</div>
+            </div>
+            <div
+              style="background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 16px">
+              <div
+                style="font-size:11px;font-weight:600;color:var(--t-faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">
+                XP Earned</div>
+              <div id="profileXP" style="font-size:14px;font-weight:500;color:var(--t-ink)">0 XP</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats summary card -->
+        <div class="db-card">
+          <div class="db-section-head" style="margin-bottom:16px">
+            <span class="db-section-title">Learning Summary</span>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <div
+              style="flex:1;min-width:80px;text-align:center;background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 10px">
+              <div id="profileStatCourses"
+                style="font-family:var(--db-f-head);font-size:24px;font-weight:700;color:var(--t-ink);line-height:1">0
+              </div>
+              <div style="font-size:11px;color:var(--t-muted);margin-top:5px">Courses</div>
+            </div>
+            <div
+              style="flex:1;min-width:80px;text-align:center;background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 10px">
+              <div id="profileStatXP"
+                style="font-family:var(--db-f-head);font-size:24px;font-weight:700;color:var(--t-ink);line-height:1">0
+              </div>
+              <div style="font-size:11px;color:var(--t-muted);margin-top:5px">XP Earned</div>
+            </div>
+            <div
+              style="flex:1;min-width:80px;text-align:center;background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 10px">
+              <div id="profileStatBadges"
+                style="font-family:var(--db-f-head);font-size:24px;font-weight:700;color:var(--t-ink);line-height:1">0
+              </div>
+              <div style="font-size:11px;color:var(--t-muted);margin-top:5px">Badges</div>
+            </div>
+            <div
+              style="flex:1;min-width:80px;text-align:center;background:var(--db-surface-2);border:1px solid var(--db-border);border-radius:12px;padding:14px 10px">
+              <div id="profileStatStreak"
+                style="font-family:var(--db-f-head);font-size:24px;font-weight:700;color:var(--t-ink);line-height:1">0
+              </div>
+              <div style="font-size:11px;color:var(--t-muted);margin-top:5px">Day Streak</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ─── SCRIPTS ──────────────────────────────── -->
+  <script src="shared.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+
+</html>
